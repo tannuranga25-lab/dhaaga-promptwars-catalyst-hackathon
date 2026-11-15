@@ -15,7 +15,7 @@
 * **🌐 Live Demo:** https://dhaaga-promptwars-catalyst-hackathon.onrender.com/
 * **🎬 Try it instantly:** open the live site and press **Try the demo** (no passcode, fictional data only)
 * **💻 Repository:** https://github.com/tannuranga25-lab/dhaaga-promptwars-catalyst-hackathon
-* **📊 Pitch Deck:** [ADD_SLIDES_LINK]
+* **📊 Pitch Deck:** https://docs.google.com/presentation/d/1rEFShkBTN60Wmcd4Bo4hgbMGauW_i0qpwyoqn-rF7rQ/edit?usp=sharing
 * **📖 Demo guide:** [DEMO.md](./DEMO.md)
 
 ---
