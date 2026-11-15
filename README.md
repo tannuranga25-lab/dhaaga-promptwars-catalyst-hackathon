@@ -12,7 +12,7 @@
 
 ## 🔗 Quick Links
 
-* **🌐 Live Demo:** [ADD_LIVE_URL_AFTER_DEPLOY]
+* **🌐 Live Demo:** https://dhaaga-promptwars-catalyst-hackathon.onrender.com/
 * **🎬 Try it instantly:** open the live site and press **Try the demo** (no passcode, fictional data only)
 * **💻 Repository:** https://github.com/tannuranga25-lab/dhaaga-promptwars-catalyst-hackathon
 * **📊 Pitch Deck:** [ADD_SLIDES_LINK]
