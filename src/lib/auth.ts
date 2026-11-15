@@ -4,6 +4,10 @@ import type { Role } from "@/lib/schemas";
 export const SESSION_COOKIE = "dhaaga_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
+export function isCurrentPasscodeVersion(sessionVersion: number, currentVersion: number): boolean {
+  return sessionVersion === currentVersion;
+}
+
 function sessionKey(): Uint8Array {
   const secret = process.env.SESSION_SECRET;
   if (!secret || new TextEncoder().encode(secret).length < 32) {
@@ -57,7 +61,7 @@ export async function verifySession(token: string, now?: Date): Promise<{
 export function sessionCookieOptions() {
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax" as const,
     path: "/",
     maxAge: SESSION_TTL_SECONDS,

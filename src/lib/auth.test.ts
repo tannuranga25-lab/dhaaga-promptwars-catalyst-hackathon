@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { signSession, verifySession } from "./auth";
+import { isCurrentPasscodeVersion, sessionCookieOptions, signSession, verifySession } from "./auth";
 
 afterEach(() => {
   delete process.env.SESSION_SECRET;
@@ -21,5 +21,19 @@ describe("signed sessions", () => {
       passcodeVersion: 3,
     });
     await expect(verifySession(`${token}x`, now)).rejects.toThrow();
+  });
+
+  it("invalidates sessions when the circle passcode version changes", () => {
+    expect(isCurrentPasscodeVersion(2, 2)).toBe(true);
+    expect(isCurrentPasscodeVersion(2, 3)).toBe(false);
+  });
+
+  it("sets the session cookie with the required browser protections", () => {
+    expect(sessionCookieOptions()).toMatchObject({
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+    });
   });
 });

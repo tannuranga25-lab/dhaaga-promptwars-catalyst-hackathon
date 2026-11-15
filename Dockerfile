@@ -6,6 +6,7 @@ RUN npm ci
 FROM node:22-alpine AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_OUTPUT=standalone
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
@@ -19,7 +20,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 USER nextjs
-EXPOSE 8080
-ENV PORT=8080
+EXPOSE 3000
+ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 CMD ["node", "server.js"]

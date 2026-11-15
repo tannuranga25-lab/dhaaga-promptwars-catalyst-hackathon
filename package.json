@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "seed": "node --env-file-if-exists=.env.local scripts/seed-demo.mjs",
+    "reset-demo": "node --env-file-if-exists=.env.local scripts/seed-demo.mjs --reset"
   },
   "dependencies": {
     "@google-cloud/firestore": "^9.4.1",

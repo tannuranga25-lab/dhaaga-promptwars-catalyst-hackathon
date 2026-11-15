@@ -18,6 +18,7 @@ describe("request schemas", () => {
       contacts: [],
     })).toThrow();
     expect(() => loginSchema.parse({ circleCode: "ABCD-0000", passcode: "123456" })).toThrow();
+    expect(loginSchema.parse({ circleCode: "DEMO-0000", passcode: "DEMOCARE" }).circleCode).toBe("DEMO-0000");
   });
 
   it("rejects invalid time zones", () => {

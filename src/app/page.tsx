@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DemoAccessButton from "@/app/demo/demo-access-button";
 
 export default function HomePage() {
   return (
@@ -13,7 +14,7 @@ export default function HomePage() {
         <div className="hero-actions">
           <Link className="button" href="/setup">Create a circle</Link>
           <Link className="button secondary" href="/login">Join with code + passcode</Link>
-          <Link className="button secondary" href="/demo">Try the demo</Link>
+          <DemoAccessButton />
         </div>
       </section>
       <aside className="hero-note" aria-label="How Dhaaga supports a care circle">

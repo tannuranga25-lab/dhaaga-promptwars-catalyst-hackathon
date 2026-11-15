@@ -4,10 +4,14 @@ import { getFirestore } from "@/lib/db";
 import { hashPasscode, normalizeCircleCode, verifyPasscode } from "@/lib/crypto";
 import { clearAuthFailures, lockedOut, recordAuthFailure, requestIpAddress } from "@/lib/auth-attempts";
 import { SESSION_COOKIE, sessionCookieOptions, signSession } from "@/lib/auth";
+import { hasValidOrigin } from "@/lib/csrf";
 
 const unknownCircleHash = hashPasscode("invalid-circle-passcode");
 
 export async function POST(request: Request) {
+  if (!hasValidOrigin(request)) {
+    return NextResponse.json({ error: "This request could not be verified." }, { status: 403 });
+  }
   const parsed = loginSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "Enter a valid circle code and passcode." }, { status: 400 });

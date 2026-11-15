@@ -3,8 +3,12 @@ import { createCircleSchema, circleSchema } from "@/lib/schemas";
 import { generateCircleCode, generatePasscode } from "@/lib/crypto";
 import { hashPasscode } from "@/lib/crypto";
 import { getFirestore } from "@/lib/db";
+import { hasValidOrigin } from "@/lib/csrf";
 
 export async function POST(request: Request) {
+  if (!hasValidOrigin(request)) {
+    return NextResponse.json({ error: "This request could not be verified." }, { status: 403 });
+  }
   const parsed = createCircleSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "Please check the circle details and try again." }, { status: 400 });
@@ -23,6 +27,7 @@ export async function POST(request: Request) {
     const displayCode = generateCircleCode();
     const circleCode = displayCode.replaceAll("-", "");
     const ref = db.collection("circles").doc(circleCode);
+    const auditRef = ref.collection("audit").doc();
     const circle = circleSchema.parse({
       elderName: parsed.data.elderName,
       timezone: parsed.data.timezone,
@@ -37,6 +42,13 @@ export async function POST(request: Request) {
       const existing = await transaction.get(ref);
       if (existing.exists) return false;
       transaction.create(ref, circle);
+      transaction.create(auditRef, {
+        actorRole: "elder",
+        action: "circle.created",
+        source: "app",
+        details: {},
+        createdAt: circle.createdAt,
+      });
       return true;
     });
     if (result) {
